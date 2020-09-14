@@ -1,0 +1,20 @@
+2.起步
+
+2.1.安装node环境
+   .查看当前Node环境的版本号
+   .下载https://nodejs.org/en/download/
+   .安装
+        。傻瓜式的一路next就可以了
+		。对于已经安装过的，重新安装就会升级
+   .确定Node环境是否安装成功
+        。打开命令行，输入 node --version
+		。或者node -v 
+   .环境变量
+
+2.2  hello world 
+   1，创建编写javascript脚本文件
+   2，打开终端，定位到脚本文件所属目录
+   3，输入node文件名 执行对应的文件
+   . 解析执行javascript
+   . 读写文件
+   . http   

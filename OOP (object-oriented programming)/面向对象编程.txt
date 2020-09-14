@@ -1,0 +1,178 @@
+﻿                                         lesson one
+
+1，全局对象     顶层对象
+     1，它是JS预定义的对象，作为JS的全局函数和全局属性的占位符
+     2，它是顶层对象，由宿主环境决定
+         1，网页里为window
+         2，node里为Global
+         3，它们身上的属性或方法可以直接使用，不用指定所属对象
+         NaN,Infinity,String(),Number(),isNaN(),parseFloat(),parseInt(), ... 不过ES6要把他们重新归类了
+     4，它有构造函数但无法实例化
+2，内置对象	 
+     1，ECMAScript自己定义的对象，每个对象都有一个自己对应的构造函数
+	 2，每个内置对象都是全局对象的一个属性
+	 3，内置对象都是平级的，如果不算顶层对象window话，内置对象都是顶层对象，但是它们之间可以互相继承
+	 4，内置对象分类
+	                  Object         所有其他对象都是继承这个对象
+		  Number
+		  String
+		  Boolean
+		  Array
+		  Math
+		  Data
+		  JSON
+		  RegExp
+		  Function
+		  Error
+		  arguments   (它并不window里的直接属性，是Function的属性)
+		  Symbol
+		  Map
+		  Set
+		  WeakMap
+		  WeakSet
+		  Promise
+		  Generator
+		  Reflect
+		  Proxy
+		  ...
+	 5，内置对象继承关系：Object<=Number,String,Boolean ...
+ 3,自定义对象（面向对象的内容）
+ 
+                                     lesson two
+1，构造函数      是个函数，用来生产对象。所有的对象都是由构造函数创建的
+2，实例
+     1，实例就是对象，由构造函数生成，平时用的实际的东西都是实例
+     2，有时候需要new关键字生成
+     3，实例身上有一个constructor指向对应构造函数
+     4，判断一个对象是否是某个对象的实例，用instanceof运算符
+3，继承
+     1，生成的实例具有构造函数身上的属性与方法	
+     2，一个对象身上有另一个对象身上的属性或方法，这种具有的方式就叫继承	
+         注意：不光实例可以继承构造函数，对象与对象也可以继承
+     3，构造函数的属性与方法（私有属性与方法）
+         构造函数身上的属性与方法，只有构造函数能用，实例不能用	 
+4，构造函数的属性与方法（私有属性与方法）
+     构造函数身上的属性与方法，只有构造函数能用，实例不能用
+5，实例的属性与方法（共享属性与方法）
+     实例身上的属性与方法，只有实例能用，构造函数不能用（放在prototype里）
+6，prototype原型
+     1，构造函数身上的一个属性（prototype），它的类型为对象，这个属性的指向就是原型
+     2，这个对象里放的属性与方法，就是构造函数的共享属性与方法，所有实例都能用
+7，__proto__ 原型	
+     1，首先要注意，这个属性是浏览器自己部署的，到了ES6 也没有正式写入标准里，只是在附录里有提到，所有建议大家不要用它，后面会有替代方案
+     2，它也是指原型对象，与prototype一样。但是有区别
+	     区别：归属不同，prototype是构造函数身上的属性，__proto__是实例对象身上的属性	 
+     3，proto前后各两个下划线，这种写法表示内部属性
+	 
+
+	                                     lesson  three
+object       对象的构造函数
+     1，它定义了对象的用法
+     2，所有对象类型数据都是它的实例
+     3，所有内置对象的头目，所有对象都从Object.prototype继承方法和属性
+生成实例
+     1，对象初始化表达式   {}   推荐使用这种方法
+     2，new Object()     构造函数 
+         1，这种写法与对象初始化表达式的效果一样
+         2，区别在于如果参数是一个原始值，则返回该参数对应的包装对象
+     3，Object.creat(Object.prototype)
+         多用于继承的时候
+私有属性（构造函数属性）
+     1，name          构造函数的名字（可以利用这个精确判断数据类型）
+     2，length        这个不知道什么意思（浏览器私有的）
+     3，prototype     Object的原型对象
+     4，__proto__	  浏览器部署的，是非标准的。用Object.getPrototypeOf()方法代替
+私有方法（构造函数方法）
+     1,Object.getOwnPropertyDescriptor()     ES5就有，ES6对其做了修改
+     2,Object.getOwnPropertyDescriptors()    ES7新增
+     3,Object.defineProperty()               ES5就有，ES6对其做了修改
+     4,Object.defineProperties()             ES5就有，ES6对其做了修改
+     5,Object.getOwnPropertyNames()	         ES5就有，ES6对其做了修改
+	 6,Object.getOwnPropertySymbols()        ES6新增
+     7,Object.getPrototypeOf()	             ES5就有，ES6对其做了修改
+	 8,Object.setPrototypeOf()               ES6新增
+	 9,Object.preventExtensions()            ES5就有，ES6对其做了修改
+	 10,Object.isExtensible()                ES5就有，ES6对其做了修改
+	 11,Object.seal()
+	 12,Object.isSealed()                    ES5就有，ES6对其做了修改
+	 13,Object.freeze()                      ES5就有，ES6对其做了修改
+	 14,Object.isFrozen()                    ES5就有，ES6对其做了修改
+	 15,Object.is()                          ES6新增
+	 16,Object.assign()                      ES6新增
+	 17,Object.create()
+	 18,Object.keys()
+	 19,Object.values()                      ES7新增
+	 20,Object.entries()                     ES7新增
+共享方法（实例方法，原型里的方法）
+     1,valueOf()
+     2,toString()
+     3,constructor()
+     4,hasOwnProperty()
+     5,isPrototypeOf()
+     6,propertyIsEnumerable()	 
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object	 
+
+                                         lesson five
+										 
+										 lesson six
+class是一个声明，与var let一样。它的作用是声明一个类
+语法 
+     class name[extends]{
+	      //class body
+	 }
+      extends为继承，是个可选参数
+注意 
+     1，声明的类还是构造函数
+     2，不能重复声明，会报错（相当于声明一个变量，于let与const一样）
+     3，与ES5写的构造函数行为一致，除了原型里方法的可枚举以外
+     4，共享方法（实例方法）直接写，它会自动放在prototype上
+     5，共享属性（实际属性）需要写在constructor里	
+	 
+	                                     lesson seven
+共享属性与方法
+     1，类里的this指向实例，所以属性都放在this上，一般会在constructor里去定义
+     2共享方法放在大括号内，因为大括号内容的方法会最终放到prototype里
+私有属性与方法
+     1，ES6规定大括号里面只能放方法，不能放属性
+     2，或者在类的外面添加属性
+     3，私有方法是在函数前面加个static关键字
+         1，方法里的this指向类而不是实例
+         2，私有方法可以被其它子类继承
+new target属性     返回构造函数（类）
+     1，一般用在构造函数之中，在class内部指向构造函数
+     2，如果构造函数不是通过new命令调用的，将返回undefined
+     3，当有继承的时候，它返回子类	 
+	 
+	                                     lesson eight
+class类可以通过extends实现继承
+super关键字     用来引入父级的构造函数
+     1，ES6规定子类必须在构造函数（constructor）里调用super方法
+     2，原因是子类里没有自己的this对象，而是要继承父级的this对象
+     3，它调完父级的构造函数，this会变成子类的构造函数	
+	 
+                                         lesson nine	 
+它有两个作用
+     1，当做函数使用
+         1，super作为函数调用时，代表父类的构造函数
+         2，调用父类构造函数后，this会被改变从子类的实例
+             原因是super内部其实用call把this的指向改成了子类实例
+             Father.prototype.constructor.call(this)
+         3,只能用在构造函数里，用在其他地方报错
+     2，当作对象使用
+         1，在普通方法中，指向父类的原型对象
+             1，只能调用原型里的东西
+             2，如果调用的是方法，那方法内部this指向子类实例
+             3，如果用super去操作属性，那super指向子类实例（this)
+         2，在私有的方法中，指向父类，而不是父类的原型
+             1，如果调用的是方法，那方法内部this指向子类而不是子类实例		 
+										 
+										 lesson ten
+class里子类的继承
+     1，子类的__proto__，表示构造函数的继承，指向父类构造函数
+     2，子类prototype属性的__proto__,表示方法的继承，指向父类的prototype
+         原因：内部的继承用的是Object.setPrototypeOf方法	 
+										 
+										 
+										 
+										 
+										 

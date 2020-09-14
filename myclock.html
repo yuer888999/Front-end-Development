@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>我制作的手表</title>
+  <style>
+  html,body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow:hidden;
+  vertical-align:middle;
+  }
+   #clock{
+    margin: 0;
+    width:100% ;
+    height:100% ;
+    display: table;
+ 
+ vertical-align:middle;
+  }
+  </style>
+ </head>
+ <body >
+ <div id="clock"><canvas id="canvas"  style="background:ivory;"></canvas></div>
+  <script>
+ 
+   var mycanvas=document.getElementById('canvas');
+   var ctx=mycanvas.getContext('2d');
+ 
+   var oClock=document.getElementById('clock');
+  
+ 
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+ 
+  //绘制表盘时间针
+   function clock(){
+ var width, height; // 画布宽度、画布高度
+ var p="";
+ if(window.innerWidth <= window.innerHeight) {
+  p=width = height = window.innerWidth;
+ }
+ else {
+  p=width = height = window.innerHeight;
+ }
+      ctx.clearRect(0,0,p,p);
+      var time=new Date();
+      var year=time.getFullYear();
+      var month=time.getMonth()+1;
+      var day=time.getDate();
+      var weeks=time.getDay();
+      var str="日一二三四五六";
+      var week=str.charAt(weeks);
+      var hours=time.getHours();
+      var minute=time.getMinutes();
+      var seconds=time.getSeconds();
+      var mlseconds=time.getMilliseconds();  
+     hours=hours+minute/60;
+      hours=hours>24?hours-24:hours;
+   function zero(value){
+         return value<10?  "0"+value: value;
+      }
+       year+"年"+month+"月"+zero(day)+"日"+week+"星期"+zero(hours)+"小时"+zero(minute)+"分钟"+zero(seconds)+"秒";
+      //表盘
+      ctx.beginPath();
+       ctx.lineWidth=p/100;
+       ctx.strokeStyle='navy';
+       ctx.arc(p/2,p/2,p*0.48,0,360,false);
+       ctx.closePath();
+       ctx.stroke();
+ 
+       for(var i=0;i<12;i++){
+    ctx.save();
+    ctx.beginPath();
+    ctx.fillStyle="red";
+    ctx.translate(p/2,p/2);
+    ctx.rotate(i*30*Math.PI/180);
+      // ctx.font="45px Arial";
+        ctx.font=p/10+"px Arial";
+    ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+       ctx.fillText(i,0,-(p/2)*0.86);       
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+   }
+ 
+   for(var i=0;i<60;i++){
+    ctx.save();
+    ctx.lineWidth=p/100;
+    ctx.strokeStyle='black';
+    ctx.translate(p/2,p/2);  //设置旋转角度
+        ctx.rotate(i*6*Math.PI/180); //角度*Math.PI/180=弧度
+    ctx.beginPath();
+       if(i%5!==0){
+        ctx.moveTo(0,-(p/2)*0.85);
+        ctx.lineTo(0,-(p/2)*0.93);
+    }
+ 
+    ctx.closePath();
+    ctx.stroke();
+    ctx.restore();
+   }
+    
+    //时针
+       ctx.save();
+    ctx.lineWidth=p/58;
+    ctx.strokeStyle='black';
+    ctx.translate(p/2,p/2);  //设置旋转角度
+    ctx.rotate(hours*30*Math.PI/180); //角度*Math.PI/180=弧度
+    ctx.beginPath();
+    ctx.moveTo(0,-(p/2)*0.68);
+    ctx.lineTo(0,p/30);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.restore();
+  
+   //分钟
+    ctx.save();
+    ctx.lineWidth=p/88;
+    ctx.strokeStyle='black';
+    ctx.translate(p/2,p/2);  //设置旋转角度
+        ctx.rotate(minute*6*Math.PI/180); //角度*Math.PI/180=弧度
+    ctx.beginPath();
+    ctx.moveTo(0,-(p/2)*0.75);
+    ctx.lineTo(0,p/30);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.restore();
+   //秒针
+    ctx.save();
+    ctx.lineWidth=p/99;
+    ctx.strokeStyle='red';
+    ctx.translate(p/2,p/2);  //设置旋转角度
+        ctx.rotate(seconds*6*Math.PI/180); //角度*Math.PI/180=弧度
+    ctx.beginPath();
+    ctx.moveTo(0,-(p/2)*0.88);
+    ctx.lineTo(0,p/20);
+    ctx.closePath();
+    ctx.stroke();
+ 
+    ctx.beginPath();
+    ctx.lineWidth=p/200;
+    ctx.arc(0,0,p/88,0,360,false);
+    ctx.closePath();
+    ctx.fillStyle="gray";
+    ctx.fill();
+    ctx.stroke();
+ 
+    ctx.beginPath();
+    ctx.lineWidth=p/200;
+    ctx.arc(0,-((p/2)*0.80),p/100,0,360,false);
+    ctx.closePath();
+    ctx.fillStyle="gray";
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+  //画数字时间
+  ctx.save();
+  ctx.beginPath();
+  ctx.fillStyle="indigo";
+  ctx.translate(p/2,p/2);
+  ctx.font=p/20+"px 微软雅黑";
+  ctx.fillText(zero(Math.floor(hours))+":"+zero(minute)+":"+zero(seconds),-p/10,p/5);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+  //画月份
+  ctx.save();
+  ctx.beginPath();
+  ctx.fillStyle="magenta";
+  ctx.translate(p/2,p/2);
+  ctx.font=p/30+"px 微软雅黑";
+  ctx.fillText(year+"/"+month+"/"+zero(day)+"/"+week,-p/9.3,p/4);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+  //工匠精神 私人定制
+  ctx.save();
+  ctx.beginPath();
+  var jianbian=ctx.createLinearGradient(-p/30,-p/3,p/4,-p/10);
+  jianbian.addColorStop("0","green");
+  jianbian.addColorStop("0.5","blue");
+  jianbian.addColorStop("1","red");
+  ctx.fillStyle=jianbian;
+  ctx.translate(p/2,p/2);
+  ctx.font=p/20+"px 微软雅黑";
+  ctx.fillText("工匠精神 私人定制 ",-p/4.8,-p/15);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+  //玉儿制作
+  ctx.save();
+  ctx.beginPath();
+  ctx.shadowBlur=8;
+  ctx.shadowColor="gold";
+  ctx.strokeStyle="yellow";
+  ctx.translate(p/2,p/2);
+  ctx.lineWidth=1;
+  ctx.font=p/20+"px 微软雅黑";
+  //ctx.textAlign="center";
+  ctx.strokeText("玉儿制作",-p/10,-p/5);
+  ctx.closePath();
+  ctx.restore();
+   }
+ 
+   clock();
+   setInterval(clock,1000);
+ 
+ 
+  </script>
+ 
+ </body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+     <meta charset="UTF-8">
+     <title>canvas粒子闪烁</title>
+     <style>
+          html,
+          body {
+               margin: 0;
+          }
+
+          body {
+               overflow: hidden
+          }
+          #mycanvas {
+               background: #000;
+          }
+     </style>
+</head>
+
+<body>
+
+     <canvas id="mycanvas"></canvas>
+
+     <script>
+          window.requestAnimationFrame = (function () {
+               return window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || function (callback) {
+                    window.setTimeout(callback, 1000 / 60);
+               };
+          })();
+
+          var canvas = document.getElementById("mycanvas");
+          var ctx = canvas.getContext("2d");
+
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          var cw = canvas.width;
+          var ch = canvas.height;
+
+          function particle() {
+               this.x = randomMax(cw);
+               this.y = randomMax(ch);
+               this.r = randomMax(100);
+               this.particleBack = "rgba(0,0,0,0.1)";
+               this.color = colorSet[Math.floor(Math.random() * colorSet.length)];
+               this.dx = -5 + randomMax(10);
+               this.dy = -5 + randomMax(10);
+          }
+          //}
+
+          var colorSet = ["aqua", "blueviolet", "cornflowerblue", "deeppink", "gold", "springgreen", "tomato"]
+          particle.prototype.draw = function () {
+               this.x += this.dx;
+               this.y += this.dy;
+               if (this.x < 0 || this.y > ch || this.x > cw || this.y < 0 || (this.dx === 0 && this.dy === 0)) {
+                    this.x = randomMax(cw);
+                    this.y = randomMax(ch);
+                    this.dx = -5 + randomMax(10);
+                    this.dy = -5 + randomMax(10);
+               }
+               ctx.beginPath();
+               jianbian = ctx.createRadialGradient(this.x, this.y, 20, this.x, this.y, 80);
+               jianbian.addColorStop(0, this.color);
+               jianbian.addColorStop(1, this.particleBack);
+               ctx.fillStyle = jianbian;
+               ctx.arc(this.x, this.y, this.r, Math.PI * 2, false);
+               ctx.fill();
+
+          }
+
+
+          //创建70个
+          var particles = [];
+          for (var i = 0; i < 70; i++) {
+               particles.push(new particle());
+          }
+
+          function loop() {
+               ctx.clearRect(0, 0, cw, ch)
+               ctx.globalCompositeOperation = "lighter";
+               requestAnimationFrame(loop)
+               for (var i = 0; i < particles.length; i++) {
+                    particles[i].draw();
+               }
+          }
+          loop()
+
+          //随机值
+          function randomMax(max) {
+               return Math.floor(Math.random() * max);
+          }
+          console.log(particles.length)
+
+     </script>
+
+</body>
+
+</html>

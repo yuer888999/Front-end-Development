@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>太极</title>
+  <style>
+  #box{
+  text-align:center;
+  background:pink;
+  }
+  </style>
+ </head>
+ <body>
+
+ <div id="box"><canvas id="mycanvas"  width=800 height=800 style="background:ivory;"></canvas></div>
+  
+
+ <script>
+ var canvas=document.getElementById("mycanvas");
+ var ctx=canvas.getContext("2d");
+
+
+ function taiJi(){
+	ctx.beginPath();
+    ctx.strokeStyle="red";
+    ctx.lineWidth=10;
+    ctx.arc(400,400,380,0,360*Math.PI/180);
+    ctx.closePath();
+    ctx.stroke();
+
+   ctx.beginPath();
+   ctx.fillStyle="black";
+   ctx.lineWidth=1;
+   ctx.arc(400,400,370,-90*Math.PI/180,90*Math.PI/180);
+   ctx.closePath();
+   ctx.fill();
+
+   ctx.beginPath();
+   ctx.fillStyle="white";
+   ctx.lineWidth=1;
+   ctx.arc(400,400,370,90*Math.PI/180,-90*Math.PI/180);
+   ctx.closePath();
+   ctx.fill();
+ 
+   ctx.beginPath();
+   ctx.fillStyle="white";
+   ctx.lineWidth=1;
+   ctx.arc(400,215,185,0,360*Math.PI/180);
+   ctx.fill();
+
+   ctx.beginPath();
+   ctx.fillStyle="black";
+   ctx.lineWidth=1;
+   ctx.arc(400,585,185,0,360*Math.PI/180);
+   ctx.closePath();
+   ctx.fill();
+
+   ctx.beginPath();
+   ctx.fillStyle="black";
+   ctx.lineWidth=1;
+   ctx.arc(400,215,92.5,0,360*Math.PI/180);
+   ctx.closePath();
+   ctx.fill();
+
+   ctx.beginPath();
+   ctx.fillStyle="white";
+   ctx.lineWidth=1;
+   ctx.arc(400,585,90,0,360*Math.PI/180);
+   ctx.closePath();
+   ctx.fill();
+ }
+
+   taiJi();
+  
+     var num=0;
+   ctx.translate(400,400); 
+   setInterval(function(){
+	   num++;
+	   ctx.save();
+	   ctx.clearRect(0,0,canvas.width,canvas.height);
+	   ctx.rotate(num*Math.PI/180);
+	   ctx.translate(-400,-400); 
+	   taiJi();
+	   ctx.restore();
+	   
+   },10)
+
+ </script>
+ </body>
+</html>
